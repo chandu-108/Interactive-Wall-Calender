@@ -40,19 +40,20 @@ export function DateCell({
 
   const isSelected = selectionState === 'start' || selectionState === 'end' || selectionState === 'single';
 
-  const handleHolidayHover = () => {
+  const handleCellMouseEnter = () => {
+    onHover(isoString);
     if (holidayName) {
       setShowHolidayTooltip(true);
     }
   };
 
-  const handleHolidayLeave = () => {
+  const handleCellMouseLeave = () => {
     setShowHolidayTooltip(false);
   };
 
   const handleHolidayClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
     if (holidayName) {
-      e.stopPropagation();
       setShowHolidayTooltip(!showHolidayTooltip);
     }
   };
@@ -63,7 +64,8 @@ export function DateCell({
       aria-label={`${dateObj.toDateString()}${holidayName ? ` - ${holidayName}` : ''}`}
       aria-selected={isSelected}
       onClick={() => onClick(isoString)}
-      onMouseEnter={() => onHover(isoString)}
+      onMouseEnter={handleCellMouseEnter}
+      onMouseLeave={handleCellMouseLeave}
       className="relative min-h-[36px] sm:min-h-[40px] flex flex-col items-center pt-[2px] cursor-pointer select-none group focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-blue-400"
       tabIndex={0}
       onKeyDown={(e) => {
@@ -143,13 +145,11 @@ export function DateCell({
       {holidayName && isCurrentMonth && (
         <div 
           className="absolute bottom-[1px] sm:bottom-[3px] z-20 flex items-center justify-center cursor-pointer"
-          onMouseEnter={handleHolidayHover}
-          onMouseLeave={handleHolidayLeave}
           onClick={handleHolidayClick}
+          title={holidayName}
         >
           <div 
             className="w-[5px] sm:w-[6px] h-[5px] sm:h-[6px] rounded-full bg-[#DC2626] dark:bg-[#EF4444] shadow-md hover:shadow-lg transition-shadow"
-            title={holidayName}
           />
           
           {/* Holiday Tooltip */}
