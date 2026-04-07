@@ -142,37 +142,39 @@ export function DateCell({
       {/* Holiday Indicator Badge */}
       {holidayName && isCurrentMonth && (
         <div 
-          className="absolute bottom-[1px] sm:bottom-[3px] z-10 flex items-center justify-center"
+          className="absolute bottom-[1px] sm:bottom-[3px] z-20 flex items-center justify-center cursor-pointer"
           onMouseEnter={handleHolidayHover}
           onMouseLeave={handleHolidayLeave}
           onClick={handleHolidayClick}
         >
           <div 
-            className="w-[5px] sm:w-[6px] h-[5px] sm:h-[6px] rounded-full bg-[#DC2626] dark:bg-[#EF4444] shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+            className="w-[5px] sm:w-[6px] h-[5px] sm:h-[6px] rounded-full bg-[#DC2626] dark:bg-[#EF4444] shadow-md hover:shadow-lg transition-shadow"
             title={holidayName}
           />
+          
+          {/* Holiday Tooltip */}
+          {showHolidayTooltip && (
+            <div 
+              className="absolute -top-10 left-1/2 -translate-x-1/2 bg-[#DC2626] text-white text-[11px] sm:text-[12px] px-3 py-2 rounded-md whitespace-nowrap font-semibold shadow-lg pointer-events-none z-50"
+              style={{
+                animation: 'fadeIn 0.2s ease-in-out',
+              }}
+            >
+              {holidayName}
+              <div 
+                className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-0 h-0"
+                style={{
+                  borderLeft: '6px solid transparent',
+                  borderRight: '6px solid transparent',
+                  borderTop: '6px solid #DC2626',
+                }}
+              />
+            </div>
+          )}
         </div>
       )}
 
-      {/* Holiday Tooltip */}
-      {holidayName && (showHolidayTooltip) && (
-        <div 
-          className="absolute bottom-full -left-1/2 mb-2 translate-x-1/2 z-50 bg-[#DC2626] text-white text-[11px] sm:text-[12px] px-3 py-2 rounded-md whitespace-nowrap font-semibold shadow-lg"
-          style={{
-            animation: 'fadeIn 0.2s ease-in-out',
-          }}
-        >
-          <div>{holidayName}</div>
-          <div 
-            className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
-            style={{
-              borderLeft: '6px solid transparent',
-              borderRight: '6px solid transparent',
-              borderTop: '6px solid #DC2626',
-            }}
-          />
-        </div>
-      )}
+
 
       <style jsx>{`
         @keyframes fadeIn {
