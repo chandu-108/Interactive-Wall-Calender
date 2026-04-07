@@ -1,4 +1,5 @@
 import { MonthTheme } from '../types/calendar';
+import { useState } from 'react';
 
 export type DateCellProps = {
   dateObj: Date;
@@ -29,6 +30,7 @@ export function DateCell({
   onClick,
   onHover
 }: DateCellProps) {
+  const [showHolidayTooltip, setShowHolidayTooltip] = useState(false);
   const number = dateObj.getDate();
   
   let numberColor = isCurrentMonth ? 'text-[#2C2C2C] dark:text-[#E8E8E8]' : 'text-[#C8C8C8] dark:text-[#8888A0]';
@@ -38,10 +40,27 @@ export function DateCell({
 
   const isSelected = selectionState === 'start' || selectionState === 'end' || selectionState === 'single';
 
+  const handleHolidayHover = () => {
+    if (holidayName) {
+      setShowHolidayTooltip(true);
+    }
+  };
+
+  const handleHolidayLeave = () => {
+    setShowHolidayTooltip(false);
+  };
+
+  const handleHolidayClick = (e: React.MouseEvent) => {
+    if (holidayName) {
+      e.stopPropagation();
+      setShowHolidayTooltip(!showHolidayTooltip);
+    }
+  };
+
   return (
     <div
       role="gridcell"
-      aria-label={`${dateObj.toDateString()}`}
+      aria-label={`${dateObj.toDateString()}${holidayName ? ` - ${holidayName}` : ''}`}
       aria-selected={isSelected}
       onClick={() => onClick(isoString)}
       onMouseEnter={() => onHover(isoString)}
@@ -109,7 +128,7 @@ export function DateCell({
             : isToday 
               ? { backgroundColor: theme.accent, color: '#fff', fontWeight: 600 }
               : holidayName && isCurrentMonth
-                ? { color: theme.accent, fontWeight: 700 }
+                ? { color: '#DC2626', fontWeight: 700 }
                 : isWeekend && isCurrentMonth
                   ? { color: theme.accent, fontWeight: 500 }
                   : { fontWeight: 500 }
@@ -120,16 +139,53 @@ export function DateCell({
         </span>
       </div>
 
-      {/* Holiday Text */}
-      {holidayName && (
+      {/* Holiday Indicator Badge */}
+      {holidayName && isCurrentMonth && (
         <div 
-          className="absolute bottom-[2px] sm:bottom-[4px] w-[110%] text-center text-[7.5px] sm:text-[8px] leading-[9px] px-[1px] font-bold z-10 line-clamp-2 text-[#D32F2F] dark:text-[#EF5350]" 
-          style={{ wordBreak: 'break-word', opacity: 0.9 }}
-          title={holidayName}
+          className="absolute bottom-[1px] sm:bottom-[3px] z-10 flex items-center justify-center"
+          onMouseEnter={handleHolidayHover}
+          onMouseLeave={handleHolidayLeave}
+          onClick={handleHolidayClick}
         >
-          {holidayName}
+          <div 
+            className="w-[5px] sm:w-[6px] h-[5px] sm:h-[6px] rounded-full bg-[#DC2626] dark:bg-[#EF4444] shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+            title={holidayName}
+          />
         </div>
       )}
+
+      {/* Holiday Tooltip */}
+      {holidayName && (showHolidayTooltip) && (
+        <div 
+          className="absolute bottom-full -left-1/2 mb-2 translate-x-1/2 z-50 bg-[#DC2626] text-white text-[11px] sm:text-[12px] px-3 py-2 rounded-md whitespace-nowrap font-semibold shadow-lg"
+          style={{
+            animation: 'fadeIn 0.2s ease-in-out',
+          }}
+        >
+          <div>{holidayName}</div>
+          <div 
+            className="absolute top-full left-1/2 -translate-x-1/2 w-0 h-0"
+            style={{
+              borderLeft: '6px solid transparent',
+              borderRight: '6px solid transparent',
+              borderTop: '6px solid #DC2626',
+            }}
+          />
+        </div>
+      )}
+
+      <style jsx>{`
+        @keyframes fadeIn {
+          from {
+            opacity: 0;
+            transform: translateY(4px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+      `}</style>
     </div>
   );
 }
