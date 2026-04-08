@@ -1,5 +1,5 @@
 import { DateCell } from './DateCell';
-import { MonthTheme } from '../types/calendar';
+import { MonthTheme, CalendarEvent } from '../types/calendar';
 
 const FIXED_HOLIDAYS: Record<string, string> = {
   '01-01': 'New Year\'s Day',
@@ -75,14 +75,18 @@ type Props = {
   selectedRange: { start: string; end: string } | null;
   hoveredDate: string | null;
   theme: MonthTheme;
+  events: CalendarEvent[];
+  isDark: boolean;
   onClickDate: (iso: string) => void;
   onHoverDate: (iso: string) => void;
   onToggleWeekStart: () => void;
+  onDateCellClick?: (iso: string) => void;
+  onDeleteEvent?: (eventId: string) => void;
 };
 
 export function CalendarGrid({
   currentYear, currentMonth, weekStartsOn, selectedRange, hoveredDate,
-  theme, onClickDate, onHoverDate, onToggleWeekStart
+  theme, events, isDark, onClickDate, onHoverDate, onToggleWeekStart, onDateCellClick, onDeleteEvent
 }: Props) {
   
   const todayISO = toISO(new Date());
@@ -114,26 +118,26 @@ export function CalendarGrid({
   const dayNames = weekStartsOn === 'mon' ? dayNamesMon : dayNamesSun;
 
   return (
-    <div className="w-full flex-grow flex flex-col pt-4">
+    <div className="w-full flex-grow flex flex-col pt-2 sm:pt-3">
       {/* Week start toggle */}
-      <div className="flex justify-between items-center px-4 sm:px-6 mb-2">
+      <div className="flex justify-between items-center px-2 sm:px-4 mb-1.5 sm:mb-2">
         <div /> 
         <button 
           onClick={onToggleWeekStart}
-          className="text-[10px] text-[#999] uppercase tracking-wider hover:text-[#444] dark:hover:text-[#E8E8E8] transition-colors print:hidden"
+          className="text-[9px] sm:text-[10px] text-[#999] uppercase tracking-wider hover:text-[#444] dark:hover:text-[#E8E8E8] transition-colors print:hidden"
         >
           [ {weekStartsOn === 'mon' ? 'Mon' : 'Sun'} First ]
         </button>
       </div>
 
-      <div className="px-4 sm:px-6 w-full max-w-[full]">
-        <div className="grid grid-cols-7 gap-y-2 mb-2" role="row">
+      <div className="px-2 sm:px-3 w-full overflow-visible flex-1 flex flex-col">
+        <div className="grid grid-cols-7 gap-[2px] sm:gap-[3px] mb-0.5 sm:mb-1 flex-shrink-0" role="row">
           {dayNames.map((day, idx) => {
             const isWeekend = day === 'SAT' || day === 'SUN';
             return (
               <div 
                 key={day} 
-                className="text-[11px] font-semibold tracking-wider text-center"
+                className="text-[8px] sm:text-[9px] font-semibold tracking-widest text-center py-0.5 sm:py-1"
                 style={{ color: isWeekend ? theme.accent : undefined }}
               >
                 <span className={!isWeekend ? 'text-[#444] dark:text-[#8888A0]' : ''}>
@@ -144,7 +148,7 @@ export function CalendarGrid({
           })}
         </div>
 
-        <div className="grid grid-cols-7 gap-y-1" role="grid" aria-label={`Calendar ${currentYear}-${currentMonth + 1}`}>
+        <div className="grid grid-cols-7 gap-[2px] sm:gap-[3px] flex-1 overflow-visible" role="grid" aria-label={`Calendar ${currentYear}-${currentMonth + 1}`}>
           {dates.map(({ date, iso }, index) => {
             const isCurrentMonth = date.getMonth() === currentMonth;
             const isToday = iso === todayISO;
@@ -182,9 +186,13 @@ export function CalendarGrid({
                 isRowStart={isRowStart}
                 isRowEnd={isRowEnd}
                 holidayName={getHoliday(iso)}
+                events={events.filter(e => e.date === iso)}
+                isDark={isDark}
                 theme={theme}
                 onClick={onClickDate}
                 onHover={onHoverDate}
+                onDateClick={onDateCellClick}
+                onDeleteEvent={onDeleteEvent}
               />
             );
           })}

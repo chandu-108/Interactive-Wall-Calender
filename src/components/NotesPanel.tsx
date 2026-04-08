@@ -24,7 +24,7 @@ export function NotesPanel({ state, theme, setActiveTab }: Props) {
   const lineColor = isDark ? '#2A2A4A' : '#E8E8E0';
 
   return (
-    <div className="w-full px-3 sm:px-4 pb-4 mt-2 flex-grow flex flex-col overflow-hidden">
+    <div className="w-full px-2 sm:px-3 pb-2 sm:pb-4 mt-1 sm:mt-2 flex-grow flex flex-col overflow-hidden">
       {/* Tab buttons — hidden in print, replaced by static label below */}
       <div className="flex items-center justify-between border-b border-gray-200 dark:border-[#2E2E4E] mb-3 print:hidden">
         <button

@@ -19,18 +19,18 @@ export function RangeSummaryBar({ theme, selectedRange, onClear }: Props) {
   const endStr = end.toLocaleDateString('en-US', formatOptions);
 
   return (
-    <div className="flex items-center px-4 sm:px-6 mb-4">
+    <div className="flex items-center px-2 sm:px-4 mb-2 sm:mb-4 overflow-hidden">
       <div 
-        className="flex items-center px-3 py-1.5 rounded-full text-[12px] font-medium tracking-wide"
+        className="flex items-center px-2 sm:px-3 py-1 sm:py-1.5 rounded-full text-[11px] sm:text-[12px] font-medium tracking-wide whitespace-nowrap overflow-hidden text-ellipsis"
         style={{
           backgroundColor: `${theme.accent}1F`, // 12% opacity hex approach
           color: theme.accent
         }}
       >
-        <span>{`${startStr} – ${endStr} · ${diffDays} days selected`}</span>
+        <span className="text-ellipsis overflow-hidden">{`${startStr} – ${endStr} · ${diffDays} days selected`}</span>
         <button 
           onClick={onClear}
-          className="ml-3 font-bold hover:opacity-70 focus:outline-[2px] focus:outline-offset-[2px] focus:outline-blue-500 rounded-full print:hidden"
+          className="ml-2 sm:ml-3 font-bold hover:opacity-70 focus:outline-[2px] focus:outline-offset-[2px] focus:outline-blue-500 rounded-full print:hidden text-[10px] sm:text-[12px]"
           aria-label="Clear selection"
         >
           ✕

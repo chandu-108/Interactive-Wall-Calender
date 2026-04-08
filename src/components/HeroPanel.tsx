@@ -29,7 +29,7 @@ type Props = {
 
 export function HeroPanel({ monthIndex, year, theme }: Props) {
   return (
-    <div data-hero-panel="" className="relative w-full h-[44vw] sm:h-[200px] lg:h-[230px] print:h-[110px]">
+    <div data-hero-panel="" className="relative w-full h-[35vw] sm:h-[150px] lg:h-[170px] print:h-[85px]">
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={MONTH_IMAGES[monthIndex % 12]}
