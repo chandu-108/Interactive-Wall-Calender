@@ -38,10 +38,10 @@ export function PrintButton() {
   return (
     <button
       onClick={handlePrint}
-      className="absolute bottom-4 right-4 z-50 p-2 rounded-full text-[#999] hover:text-[#444] dark:hover:text-[#E8E8E8] transition-colors print:hidden"
+      className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 z-50 p-1.5 sm:p-2 rounded-full text-[#999] hover:text-[#444] dark:hover:text-[#E8E8E8] transition-colors print:hidden"
       aria-label="Print calendar"
     >
-      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
       </svg>
     </button>

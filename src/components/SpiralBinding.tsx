@@ -16,12 +16,11 @@ function CoilRing({ filled, accent }: { filled: boolean; accent: string }) {
 
   return (
     <svg
-      width="30"
-      height="30"
       viewBox="0 0 30 30"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      style={{ flexShrink: 0, filter: filled ? `drop-shadow(0 2px 4px ${accent}88)` : undefined }}
+      className="w-[18px] h-[18px] sm:w-[24px] sm:h-[24px] md:w-[30px] md:h-[30px] flex-shrink-0"
+      style={{ filter: filled ? `drop-shadow(0 2px 4px ${accent}88)` : undefined }}
     >
       {/* Outer ring border */}
       <circle cx="15" cy="15" r="12" stroke={color} strokeWidth="4" fill={innerColor} />
@@ -39,13 +38,11 @@ export function SpiralBinding({ monthIndex = 0, theme }: Props) {
 
   return (
     <div
-      className="w-full flex justify-around pointer-events-none print:hidden"
+      className="w-full flex justify-around items-center pointer-events-none print:hidden px-2 sm:px-4 md:px-6"
       style={{
-        paddingLeft: '24px',
-        paddingRight: '24px',
         position: 'relative',
         zIndex: 30,
-        marginBottom: '-15px', // overlap ring bottoms into the card top edge
+        marginBottom: '-12px',
         transition: 'all 0.3s ease',
       }}
     >
