@@ -89,7 +89,7 @@ export function NotesPanel({ state, theme, setActiveTab }: Props) {
         )}
 
         {/* Char count / saved indicator — screen only */}
-        <div className="flex items-center justify-end space-x-3 text-[10px] mt-1 pr-1 print:hidden" style={{ color: inactiveColor }}>
+        <div className="flex items-center justify-end space-x-3 text-[10px] mt-1 pr-8 sm:pr-10 print:hidden" style={{ color: inactiveColor }}>
           <span className={`transition-opacity duration-300 ${showSaved ? 'opacity-100' : 'opacity-0'}`}>
             Saved ✓
           </span>
